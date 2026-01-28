@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VALORANT HUB
 
-## Getting Started
+VALORANT HUB は、VALORANT プレイヤー向けの  
+**シンプルで楽しいツールを集めていく Web プロジェクト**です。
 
-First, run the development server:
+現在は **エージェントルーレット**のみを提供していますが、  
+将来的にさまざまな機能を追加していくことを前提にしています。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+「作り込みすぎない」「すぐ試せる」「あとから広げられる」  
+そんなツール群を目指しています。
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ 現在の機能
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🎲 エージェントルーレット
+- ランダムにエージェントを選択
+- ロール別フィルタ（デュエリスト / イニシエーター / コントローラー / センチネル）
+- 特定エージェントの除外
+- 軽いシャッフル演出による結果表示
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🔮 今後追加予定・検討中の機能
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- マップルーレット
+- チーム / ロールのランダム分け
+- 試合前の準備や練習に使えるツール
+- その他、VALORANT向けの小さな便利機能や実験的なアイデア
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+※ 機能は段階的に追加していく予定です。
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎯 このプロジェクトについて
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+VALORANT HUB は、  
+「とりあえず使ってみる」「ちょっと楽しむ」ことを大切にしたプロジェクトです。
+
+完璧さや網羅性よりも、  
+**気軽さ・拡張しやすさ・遊び心**を重視しています。
+
+---
+
+## 📜 注意事項
+
+- 本プロジェクトは個人開発・学習目的のものです
+- VALORANT およびエージェント名・画像などの権利は Riot Games に帰属します
+- Riot Games とは公式な関係はありません

@@ -78,13 +78,61 @@ export default function HomePage() {
   const canRoll = candidates.length > 0 && !isRolling;
 
   return (
-    <main className="container">
-      <header className="header">
-        <h1 className="title">VALORANT HUB</h1>
-        <p className="subtitle">Agent Roulette (prototype)</p>
+    <main className="page">
+      <header className="hero">
+        <div className="heroCopy">
+          <p className="eyebrow">VALORANT HUB</p>
+          <h1 className="heroTitle">Agent Roulette</h1>
+          <p className="heroLead">
+            気分で選ぶ、勝率は気にしない。<br />
+            プレイ前のウォームアップに、1クリックのランダム指名。
+          </p>
+          <div className="heroPills">
+            <span className="pill">No login</span>
+            <span className="pill">Local only</span>
+            <span className="pill">Fast roll</span>
+          </div>
+        </div>
+
+        <div className="heroPanel">
+          <div className="panelHeader">
+            <div>
+              <div className="label">Result</div>
+              <div className="status">{isRolling ? "Rolling" : "Ready"}</div>
+            </div>
+            <div className="stat">
+              <div className="label">Candidates</div>
+              <div className="count">{candidates.length}</div>
+            </div>
+          </div>
+
+          <div className={`resultBox ${isRolling ? "rolling" : ""}`}>
+            {current ? (
+              <>
+                <div className="agentName">{current.name}</div>
+                <div className="agentRole">{current.role}</div>
+              </>
+            ) : (
+              <div className="empty">No candidates</div>
+            )}
+          </div>
+
+          <div className="actions">
+            <button className="primary" onClick={roll} disabled={!canRoll}>
+              {isRolling ? "Rolling..." : "ROLL"}
+            </button>
+            <button className="ghost" onClick={resetExcludes} disabled={isRolling}>
+              Reset excludes
+            </button>
+          </div>
+
+          {!canRoll && candidates.length === 0 && (
+            <p className="hint">除外しすぎ。Reset excludes で戻せるよ。</p>
+          )}
+        </div>
       </header>
 
-      <section className="card">
+      <section className="panel panelControls">
         <div className="row">
           <div>
             <div className="label">Role Filter</div>
@@ -110,40 +158,16 @@ export default function HomePage() {
           </div>
 
           <div className="meta">
-            <div className="label">Candidates</div>
+            <div className="label">Pool</div>
             <div className="count">{candidates.length}</div>
+            <div className="subText">
+              {selectedRole === "All" ? "All roles" : selectedRole}
+            </div>
           </div>
-        </div>
-
-        <div className="result">
-          <div className="label">Result</div>
-          <div className={`resultBox ${isRolling ? "rolling" : ""}`}>
-            {current ? (
-              <>
-                <div className="agentName">{current.name}</div>
-                <div className="agentRole">{current.role}</div>
-              </>
-            ) : (
-              <div className="empty">No candidates</div>
-            )}
-          </div>
-
-          <div className="actions">
-            <button className="primary" onClick={roll} disabled={!canRoll}>
-              {isRolling ? "Rolling..." : "ROLL"}
-            </button>
-            <button className="ghost" onClick={resetExcludes} disabled={isRolling}>
-              Reset excludes
-            </button>
-          </div>
-
-          {!canRoll && candidates.length === 0 && (
-            <p className="hint">除外しすぎ。Reset excludes で戻せるよ。</p>
-          )}
         </div>
       </section>
 
-      <section className="card">
+      <section className="panel panelExclude">
         <div className="row" style={{ alignItems: "baseline" }}>
           <h2 className="h2">Exclude agents</h2>
           <span className="hint">（ローカル状態・今は保存しない）</span>

@@ -199,6 +199,29 @@ body::after {
   gap: 6px;
 }
 
+.resultMedia {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 18px;
+  align-items: center;
+}
+
+.portrait {
+  width: 92px;
+  height: 92px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+.resultInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .resultBox.rolling {
   animation: shimmer 0.3s ease-in-out infinite alternate;
 }
@@ -281,6 +304,7 @@ body::after {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  margin-top: 8px;
 }
 
 .segBtn {
@@ -297,6 +321,11 @@ body::after {
   background: var(--accent-soft);
   border-color: rgba(245, 71, 107, 0.45);
   color: #ffd2dc;
+}
+
+.panelControls .label {
+  display: block;
+  margin-bottom: 4px;
 }
 
 .grid {
@@ -318,6 +347,15 @@ body::after {
 
 .chipOff {
   opacity: 0.6;
+}
+
+.chipIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .chipName {
@@ -388,5 +426,16 @@ body::after {
   .ghost {
     width: 100%;
     justify-content: center;
+  }
+
+  .resultMedia {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .portrait {
+    width: 110px;
+    height: 110px;
   }
 }

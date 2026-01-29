@@ -1,7 +1,7 @@
 // src/app/page.tsx
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AGENTS, Agent, AgentRole } from "@/data/agents";
 
 const ROLES: AgentRole[] = ["Duelist", "Initiator", "Controller", "Sentinel"];
@@ -108,10 +108,17 @@ export default function HomePage() {
 
           <div className={`resultBox ${isRolling ? "rolling" : ""}`}>
             {current ? (
-              <>
-                <div className="agentName">{current.name}</div>
-                <div className="agentRole">{current.role}</div>
-              </>
+              <div className="resultMedia">
+                <img
+                  className="portrait"
+                  src={`/agents/portraits/${current.id}.png`}
+                  alt={`${current.name} portrait`}
+                />
+                <div className="resultInfo">
+                  <div className="agentName">{current.name}</div>
+                  <div className="agentRole">{current.role}</div>
+                </div>
+              </div>
             ) : (
               <div className="empty">No candidates</div>
             )}
@@ -189,6 +196,12 @@ export default function HomePage() {
                       [a.id]: e.target.checked,
                     }))
                   }
+                />
+                <img
+                  className="chipIcon"
+                  src={`/agents/icon/${a.id}.png`}
+                  alt={`${a.name} icon`}
+                  loading="lazy"
                 />
                 <span className="chipName">{a.name}</span>
                 <span className="chipRole">{a.role}</span>

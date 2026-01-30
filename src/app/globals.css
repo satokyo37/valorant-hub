@@ -66,7 +66,7 @@ body::after {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(260px, 1.05fr) minmax(260px, 1fr);
+  grid-template-columns: 1fr;
   gap: 24px;
   align-items: stretch;
   animation: rise 0.5s ease-out both;
@@ -74,8 +74,9 @@ body::after {
 
 .heroCopy {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
 }
 
 .eyebrow {
@@ -91,19 +92,6 @@ body::after {
   font-size: clamp(32px, 4vw, 54px);
   letter-spacing: 0.02em;
   margin: 0;
-}
-
-.heroLead {
-  margin: 0;
-  line-height: 1.7;
-  color: var(--muted);
-  font-size: 15px;
-}
-
-.heroPills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
 }
 
 .pill {
@@ -171,11 +159,7 @@ body::after {
   animation: rise 0.5s ease-out both;
 }
 
-.panelControls {
-  animation-delay: 0.05s;
-}
-
-.panelExclude {
+.panelFilters {
   animation-delay: 0.1s;
 }
 
@@ -189,26 +173,30 @@ body::after {
 
 .resultBox {
   border-radius: 18px;
-  padding: 22px;
-  min-height: 110px;
+  padding: 28px 32px;
+  min-height: 150px;
+  width: min(100%, 860px);
+  align-self: center;
   border: 1px solid rgba(245, 71, 107, 0.35);
   background: linear-gradient(135deg, rgba(245, 71, 107, 0.16), rgba(70, 245, 225, 0.08));
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 6px;
+  gap: 10px;
 }
 
 .resultMedia {
   display: grid;
-  grid-template-columns: 92px 1fr;
-  gap: 18px;
+  grid-template-columns: minmax(160px, 240px) 1fr;
+  gap: 24px;
   align-items: center;
+  justify-items: start;
+  text-align: left;
 }
 
 .portrait {
-  width: 92px;
-  height: 92px;
+  width: clamp(160px, 22vw, 240px);
+  height: clamp(160px, 22vw, 240px);
   object-fit: cover;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -220,6 +208,7 @@ body::after {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  align-items: flex-start;
 }
 
 .resultBox.rolling {
@@ -228,13 +217,13 @@ body::after {
 
 .agentName {
   font-family: var(--font-display);
-  font-size: clamp(26px, 3.6vw, 34px);
+  font-size: clamp(30px, 4.2vw, 42px);
   letter-spacing: 0.02em;
 }
 
 .agentRole {
   color: var(--muted);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .empty {
@@ -248,8 +237,7 @@ body::after {
 }
 
 .primary,
-.ghost,
-.segBtn {
+.ghost {
   font-family: var(--font-display);
   border-radius: var(--radius-md);
   border: 1px solid transparent;
@@ -276,8 +264,7 @@ body::after {
 }
 
 .primary:disabled,
-.ghost:disabled,
-.segBtn:disabled {
+.ghost:disabled {
   opacity: 0.45;
   cursor: not-allowed;
   transform: none;
@@ -296,36 +283,51 @@ body::after {
   font-size: 12px;
 }
 
-.meta {
-  text-align: right;
-}
-
-.seg {
+.filterHeader {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   flex-wrap: wrap;
-  gap: 10px;
+}
+
+.filterMeta {
+  display: flex;
+  gap: 24px;
   margin-top: 8px;
+  flex-wrap: wrap;
 }
 
-.segBtn {
-  border-radius: var(--radius-pill);
-  border-color: var(--border);
+.roleGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.roleGroup {
+  padding: 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.02);
-  color: var(--text);
+}
+
+.roleHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-display);
+}
+
+.roleTitle {
+  font-size: 16px;
+}
+
+.roleCount {
+  margin-left: auto;
+  color: var(--muted);
   font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.segBtn.active {
-  background: var(--accent-soft);
-  border-color: rgba(245, 71, 107, 0.45);
-  color: #ffd2dc;
-}
-
-.panelControls .label {
-  display: block;
-  margin-bottom: 4px;
+  font-family: var(--font-body);
 }
 
 .grid {
@@ -391,10 +393,6 @@ body::after {
 }
 
 @media (max-width: 900px) {
-  .hero {
-    grid-template-columns: 1fr;
-  }
-
   .page {
     padding-top: 32px;
   }
@@ -412,6 +410,11 @@ body::after {
 @media (max-width: 640px) {
   .page {
     padding: 28px 16px 72px;
+  }
+
+  .heroCopy {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .heroTitle {
@@ -435,7 +438,11 @@ body::after {
   }
 
   .portrait {
-    width: 110px;
-    height: 110px;
+    width: clamp(180px, 60vw, 240px);
+    height: clamp(180px, 60vw, 240px);
+  }
+
+  .resultInfo {
+    align-items: center;
   }
 }

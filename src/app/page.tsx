@@ -11,7 +11,6 @@ function pickRandom<T>(arr: T[]): T {
 }
 
 export default function HomePage() {
-  const [selectedRole, setSelectedRole] = useState<AgentRole | "All">("All");
   const [excluded, setExcluded] = useState<Record<string, boolean>>({});
   const [current, setCurrent] = useState<Agent | null>(null);
 
@@ -21,11 +20,14 @@ export default function HomePage() {
 
   const candidates = useMemo(() => {
     return AGENTS.filter((a) => {
-      if (selectedRole !== "All" && a.role !== selectedRole) return false;
       if (excluded[a.id]) return false;
       return true;
     });
-  }, [selectedRole, excluded]);
+  }, [excluded]);
+
+  const excludedCount = useMemo(() => {
+    return Object.values(excluded).filter(Boolean).length;
+  }, [excluded]);
 
   // 初回表示：候補から1つ出す
   useEffect(() => {
@@ -83,15 +85,6 @@ export default function HomePage() {
         <div className="heroCopy">
           <p className="eyebrow">VALORANT HUB</p>
           <h1 className="heroTitle">Agent Roulette</h1>
-          <p className="heroLead">
-            気分で選ぶ、勝率は気にしない。<br />
-            プレイ前のウォームアップに、1クリックのランダム指名。
-          </p>
-          <div className="heroPills">
-            <span className="pill">No login</span>
-            <span className="pill">Local only</span>
-            <span className="pill">Fast roll</span>
-          </div>
         </div>
 
         <div className="heroPanel">
@@ -120,7 +113,7 @@ export default function HomePage() {
                 </div>
               </div>
             ) : (
-              <div className="empty">No candidates</div>
+              <div className="empty">候補なし</div>
             )}
           </div>
 
@@ -128,84 +121,89 @@ export default function HomePage() {
             <button className="primary" onClick={roll} disabled={!canRoll}>
               {isRolling ? "Rolling..." : "ROLL"}
             </button>
-            <button className="ghost" onClick={resetExcludes} disabled={isRolling}>
-              Reset excludes
-            </button>
           </div>
-
-          {!canRoll && candidates.length === 0 && (
-            <p className="hint">除外しすぎ。Reset excludes で戻せるよ。</p>
-          )}
         </div>
       </header>
 
-      <section className="panel panelControls">
-        <div className="row">
+      <section className="panel panelFilters">
+        <div className="filterHeader">
+          <h2 className="h2">Filter</h2>
+          <button className="ghost" onClick={resetExcludes} disabled={isRolling}>
+            Reset
+          </button>
+        </div>
+
+        <div className="filterMeta">
           <div>
-            <div className="label">Role Filter</div>
-            <div className="seg">
-              <button
-                className={`segBtn ${selectedRole === "All" ? "active" : ""}`}
-                onClick={() => setSelectedRole("All")}
-                disabled={isRolling}
-              >
-                All
-              </button>
-              {ROLES.map((r) => (
-                <button
-                  key={r}
-                  className={`segBtn ${selectedRole === r ? "active" : ""}`}
-                  onClick={() => setSelectedRole(r)}
-                  disabled={isRolling}
-                >
-                  {r}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="meta">
-            <div className="label">Pool</div>
-            <div className="count">{candidates.length}</div>
-            <div className="subText">
-              {selectedRole === "All" ? "All roles" : selectedRole}
-            </div>
+            <div className="label">Total Agents</div>
+            <div className="count">{AGENTS.length}</div>
           </div>
         </div>
-      </section>
 
-      <section className="panel panelExclude">
-        <div className="row" style={{ alignItems: "baseline" }}>
-          <h2 className="h2">Exclude agents</h2>
-          <span className="hint">（ローカル状態・今は保存しない）</span>
-        </div>
+        <div className="roleGroups">
+          {ROLES.map((role) => {
+            const roleAgents = AGENTS.filter((a) => a.role === role);
+            const roleExcluded = roleAgents.filter((a) => excluded[a.id]).length;
+            const allExcluded = roleExcluded === roleAgents.length;
+            const someExcluded = roleExcluded > 0 && !allExcluded;
 
-        <div className="grid">
-          {AGENTS.map((a) => {
-            const checked = !!excluded[a.id];
-            const disabled = isRolling;
             return (
-              <label key={a.id} className={`chip ${checked ? "chipOff" : ""}`}>
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  disabled={disabled}
-                  onChange={(e) =>
-                    setExcluded((prev) => ({
-                      ...prev,
-                      [a.id]: e.target.checked,
-                    }))
-                  }
-                />
-                <img
-                  className="chipIcon"
-                  src={`/agents/icon/${a.id}.png`}
-                  alt={`${a.name} icon`}
-                  loading="lazy"
-                />
-                <span className="chipName">{a.name}</span>
-                <span className="chipRole">{a.role}</span>
-              </label>
+              <div key={role} className="roleGroup">
+                <label className="roleHeader">
+                  <input
+                    type="checkbox"
+                    checked={allExcluded}
+                    disabled={isRolling}
+                    ref={(el) => {
+                      if (el) el.indeterminate = someExcluded;
+                    }}
+                    onChange={(e) => {
+                      const shouldExclude = e.target.checked;
+                      setExcluded((prev) => {
+                        const next = { ...prev };
+                        roleAgents.forEach((agent) => {
+                          next[agent.id] = shouldExclude;
+                        });
+                        return next;
+                      });
+                    }}
+                  />
+                  <span className="roleTitle">{role}</span>
+                  <span className="roleCount">
+                    {roleExcluded}/{roleAgents.length}
+                  </span>
+                </label>
+
+                <div className="grid">
+                  {roleAgents.map((a) => {
+                    const checked = !!excluded[a.id];
+                    const disabled = isRolling;
+                    return (
+                      <label key={a.id} className={`chip ${checked ? "chipOff" : ""}`}>
+                        <input
+                          type="checkbox"
+                          checked={checked}
+                          disabled={disabled}
+                          onChange={(e) =>
+                            setExcluded((prev) => ({
+                              ...prev,
+                              [a.id]: e.target.checked,
+                            }))
+                          }
+                        />
+                        <img
+                          className="chipIcon"
+                          src={`/agents/icon/${a.id}.png`}
+                          alt={`${a.name} icon`}
+                          loading="lazy"
+                        />
+                        <span className="chipName">{a.name}</span>
+                        <span className="chipRole">{a.role}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
             );
           })}
         </div>

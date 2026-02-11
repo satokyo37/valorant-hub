@@ -22,8 +22,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Temporary single-locale setup. Keep this aligned with displayed copy until i18n is introduced.
   return (
-    <html lang="en">
+    <html lang="ja">
       <body className={`${display.variable} ${body.variable} antialiased`}>
         {children}
       </body>

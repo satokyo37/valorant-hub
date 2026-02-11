@@ -3,13 +3,10 @@
 
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
+import Image from "next/image";
 import { AGENTS, Agent, AgentRole } from "@/data/agents";
 
 const ROLES: AgentRole[] = ["Duelist", "Initiator", "Sentinel", "Controller"];
-
-function pickRandom<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
 
 function roleIconSrc(role: AgentRole) {
   return `/agents/role/${role.toLowerCase()}.png`;
@@ -88,7 +85,7 @@ export default function HomePage() {
     });
   }, [candidates, rouletteIndex, visibleCount]);
 
-  function stopRolling(finalPick?: Agent) {
+  const stopRolling = useCallback((finalPick?: Agent) => {
     if (intervalRef.current) window.clearInterval(intervalRef.current);
     if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
     intervalRef.current = null;
@@ -96,7 +93,7 @@ export default function HomePage() {
 
     setIsRolling(false);
     if (finalPick) setCurrent(finalPick);
-  }
+  }, []);
 
   function roll() {
     if (isRolling) return;
@@ -129,8 +126,7 @@ export default function HomePage() {
   // 画面離脱などでタイマー残らないように
   useEffect(() => {
     return () => stopRolling();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [stopRolling]);
 
   const canRoll = candidates.length > 0 && !isRolling;
 
@@ -174,10 +170,13 @@ export default function HomePage() {
                           ["--depth" as string]: depth,
                         }}
                       >
-                        <img
+                        <Image
                           className="rouletteIcon"
                           src={`/agents/icon/${agent.id}.png`}
                           alt={`${agent.name} icon`}
+                          width={44}
+                          height={44}
+                          sizes="44px"
                           loading="lazy"
                         />
                         <span className="rouletteName">{agent.name}</span>
@@ -272,10 +271,13 @@ const FilterPanel = memo(function FilterPanel({
                     });
                   }}
                 />
-                <img
+                <Image
                   className="roleIcon"
                   src={roleIconSrc(role)}
                   alt={`${role} role icon`}
+                  width={18}
+                  height={18}
+                  sizes="18px"
                   loading="lazy"
                 />
                 <span className="roleTitle">{role}</span>
@@ -302,10 +304,13 @@ const FilterPanel = memo(function FilterPanel({
                           }))
                         }
                       />
-                      <img
+                      <Image
                         className="chipIcon"
                         src={`/agents/icon/${a.id}.png`}
                         alt={`${a.name} icon`}
+                        width={28}
+                        height={28}
+                        sizes="28px"
                         loading="lazy"
                       />
                       <span className="chipName">{a.name}</span>

@@ -20,11 +20,11 @@ export default function HomePage() {
   const [current, setCurrent] = useState<Agent | null>(null);
   const [rouletteIndex, setRouletteIndex] = useState(0);
   const [rouletteWidth, setRouletteWidth] = useState(0);
+  const [rouletteEl, setRouletteEl] = useState<HTMLDivElement | null>(null);
 
   const [isRolling, setIsRolling] = useState(false);
   const intervalRef = useRef<number | null>(null);
   const timeoutRef = useRef<number | null>(null);
-  const rouletteRef = useRef<HTMLDivElement | null>(null);
 
   const hasSelection = useMemo(() => {
     return Object.values(selected).some(Boolean);
@@ -48,20 +48,34 @@ export default function HomePage() {
   }, [candidates.length]);
 
   useEffect(() => {
-    if (!rouletteRef.current) return;
-    const el = rouletteRef.current;
+    if (!rouletteEl) return;
     const observer = new ResizeObserver(() => {
-      setRouletteWidth(el.clientWidth);
+      setRouletteWidth(rouletteEl.clientWidth);
     });
-    observer.observe(el);
-    setRouletteWidth(el.clientWidth);
+    observer.observe(rouletteEl);
+    setRouletteWidth(rouletteEl.clientWidth);
     return () => observer.disconnect();
-  }, []);
+  }, [rouletteEl]);
 
   const visibleCount = useMemo(() => {
-    const cardSpan = 140; // width 128 + gap 12
-    const count = Math.max(7, Math.floor(rouletteWidth / cardSpan));
-    return count % 2 === 0 ? count + 1 : count;
+    let cardSpan = 140;
+    let minCards = 7;
+    let maxCards = 13;
+
+    if (rouletteWidth < 460) {
+      cardSpan = 74;
+      minCards = 3;
+      maxCards = 5;
+    } else if (rouletteWidth < 760) {
+      cardSpan = 112;
+      minCards = 5;
+      maxCards = 7;
+    }
+
+    const count = Math.floor(rouletteWidth / cardSpan);
+    const bounded = Math.min(maxCards, Math.max(minCards, count));
+    const odd = bounded % 2 === 0 ? bounded - 1 : bounded;
+    return Math.max(3, odd);
   }, [rouletteWidth]);
 
   const rouletteWindow = useMemo(() => {
@@ -146,7 +160,7 @@ export default function HomePage() {
 
           <div className={`resultBox ${isRolling ? "rolling" : ""}`}>
             {current ? (
-              <div className="rouletteFull" ref={rouletteRef}>
+              <div className="rouletteFull" ref={setRouletteEl}>
                 <div className="rouletteTrack">
                   {rouletteWindow.map(({ agent, offset }) => {
                     const active = offset === 0;

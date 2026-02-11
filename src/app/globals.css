@@ -67,21 +67,22 @@ body::after {
 .hero {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 24px;
+  gap: 18px;
   align-items: stretch;
   animation: rise 0.5s ease-out both;
+  min-width: 0;
 }
 
 .heroCopy {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .eyebrow {
   text-transform: uppercase;
-  letter-spacing: 0.36em;
+  letter-spacing: 0.28em;
   font-size: 12px;
   color: var(--muted);
   margin: 0;
@@ -89,9 +90,17 @@ body::after {
 
 .heroTitle {
   font-family: var(--font-display);
-  font-size: clamp(32px, 4vw, 54px);
+  font-size: clamp(36px, 4.4vw, 60px);
   letter-spacing: 0.02em;
   margin: 0;
+}
+
+.heroSub {
+  margin: 0;
+  color: rgba(238, 240, 246, 0.75);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .pill {
@@ -113,6 +122,7 @@ body::after {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-width: 0;
 }
 
 .panelHeader {
@@ -123,15 +133,15 @@ body::after {
 }
 
 .label {
-  font-size: 11px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: var(--muted);
+  color: rgba(238, 240, 246, 0.85);
 }
 
 .status {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 22px;
   margin-top: 6px;
 }
 
@@ -139,15 +149,37 @@ body::after {
   text-align: right;
 }
 
+.countRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .count {
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 28px;
+}
+
+.pill {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 220, 229, 0.9);
+  border: 1px solid rgba(245, 71, 107, 0.5);
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(245, 71, 107, 0.1);
 }
 
 .subText {
   margin-top: 6px;
   font-size: 12px;
   color: var(--muted);
+}
+
+.subTextEmphasis {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .panel {
@@ -173,10 +205,11 @@ body::after {
 
 .resultBox {
   border-radius: 18px;
-  padding: 28px 32px;
+  padding: 24px 22px 56px;
   min-height: 150px;
-  width: min(100%, 860px);
-  align-self: center;
+  width: 100%;
+  min-width: 0;
+  align-self: stretch;
   border: 1px solid rgba(245, 71, 107, 0.35);
   background: linear-gradient(135deg, rgba(245, 71, 107, 0.16), rgba(70, 245, 225, 0.08));
   display: flex;
@@ -185,18 +218,9 @@ body::after {
   gap: 10px;
 }
 
-.resultMedia {
-  display: grid;
-  grid-template-columns: minmax(160px, 240px) 1fr;
-  gap: 24px;
-  align-items: center;
-  justify-items: start;
-  text-align: left;
-}
-
 .portrait {
-  width: clamp(160px, 22vw, 240px);
-  height: clamp(160px, 22vw, 240px);
+  width: clamp(150px, 20vw, 210px);
+  height: clamp(150px, 20vw, 210px);
   object-fit: cover;
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -211,8 +235,102 @@ body::after {
   align-items: flex-start;
 }
 
+.rouletteFull {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  background: rgba(18, 20, 26, 0.75);
+  padding: 18px 0;
+  min-height: 220px;
+  --card-w: 128px;
+  --card-h: 104px;
+  --active-scale: 1.26;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.rouletteTrack {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  perspective: 900px;
+  width: 100%;
+  min-width: 0;
+}
+
+.rouletteCard {
+  position: relative;
+  width: var(--card-w);
+  min-width: var(--card-w);
+  height: var(--card-h);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+  display: grid;
+  grid-template-rows: auto auto;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+  transition: transform 120ms ease, opacity 120ms ease, box-shadow 120ms ease,
+    color 120ms ease, border-color 120ms ease, filter 120ms ease;
+  opacity: 0.55;
+  transform:
+    translateY(calc(var(--depth, 0) * 2px))
+    translateZ(calc(-30px * (1 + (var(--depth, 0) * 0.2))))
+    scale(calc(0.92 - (var(--depth, 0) * 0.04)));
+  filter: blur(calc(0.4px + (var(--depth, 0) * 0.2px)));
+}
+
+.rouletteCardActive {
+  transform: translateZ(30px) scale(var(--active-scale));
+  color: rgba(255, 255, 255, 0.95);
+  opacity: 1;
+  border-color: transparent;
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.04);
+  filter: none;
+}
+
+.rouletteCardActive::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 16px;
+  border: 2px solid rgba(245, 71, 107, 0.55);
+  box-shadow: 0 0 24px rgba(245, 71, 107, 0.35);
+  pointer-events: none;
+}
+
+.rouletteIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.rouletteCardActive .rouletteIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+}
+
+.rouletteName {
+  font-weight: 600;
+}
+
+
 .resultBox.rolling {
-  animation: shimmer 0.3s ease-in-out infinite alternate;
+  box-shadow: 0 0 0 1px rgba(245, 71, 107, 0.2), 0 10px 30px rgba(0, 0, 0, 0.35),
+    0 0 24px rgba(245, 71, 107, 0.25);
 }
 
 .agentName {
@@ -222,6 +340,9 @@ body::after {
 }
 
 .agentRole {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: var(--muted);
   font-size: 16px;
 }
@@ -234,6 +355,11 @@ body::after {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  justify-content: flex-end;
+  width: 100%;
+  align-self: stretch;
+  padding: 0;
+  margin-top: -36px;
 }
 
 .primary,
@@ -241,7 +367,7 @@ body::after {
   font-family: var(--font-display);
   border-radius: var(--radius-md);
   border: 1px solid transparent;
-  padding: 10px 18px;
+  padding: 12px 22px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -251,6 +377,9 @@ body::after {
   color: #0a0c12;
   font-weight: 700;
   box-shadow: 0 14px 30px rgba(245, 71, 107, 0.35);
+  min-width: 180px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .primary:hover:not(:disabled) {
@@ -291,11 +420,22 @@ body::after {
   flex-wrap: wrap;
 }
 
+.filterHeader .ghost {
+  border-color: rgba(245, 71, 107, 0.45);
+  color: rgba(255, 220, 229, 0.95);
+  background: rgba(245, 71, 107, 0.08);
+}
+
 .filterMeta {
   display: flex;
   gap: 24px;
   margin-top: 8px;
   flex-wrap: wrap;
+}
+
+.filterMeta .subText {
+  flex-basis: 100%;
+  margin-top: 2px;
 }
 
 .roleGroups {
@@ -317,10 +457,32 @@ body::after {
   align-items: center;
   gap: 12px;
   font-family: var(--font-display);
+  padding: 6px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.roleHeader input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
 }
 
 .roleTitle {
   font-size: 16px;
+}
+
+.roleIcon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+  opacity: 0.95;
+}
+
+.agentRole .roleIcon {
+  width: 20px;
+  height: 20px;
 }
 
 .roleCount {
@@ -328,6 +490,10 @@ body::after {
   color: var(--muted);
   font-size: 12px;
   font-family: var(--font-body);
+}
+
+.roleCountActive {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .grid {
@@ -345,10 +511,11 @@ body::after {
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.03);
   padding: 12px 14px;
+  cursor: pointer;
 }
 
 .chipOff {
-  opacity: 0.6;
+  opacity: 0.4;
 }
 
 .chipIcon {
@@ -360,26 +527,16 @@ body::after {
   background: rgba(0, 0, 0, 0.2);
 }
 
+.chip input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
 .chipName {
   font-weight: 700;
 }
 
-.chipRole {
-  margin-left: auto;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-@keyframes shimmer {
-  from {
-    transform: translateY(0);
-    filter: blur(0px);
-  }
-  to {
-    transform: translateY(-2px);
-    filter: blur(0.3px);
-  }
-}
 
 @keyframes rise {
   from {
@@ -391,6 +548,7 @@ body::after {
     transform: translateY(0);
   }
 }
+
 
 @media (max-width: 900px) {
   .page {
@@ -423,6 +581,42 @@ body::after {
 
   .actions {
     flex-direction: column;
+    margin-top: 6px;
+    padding: 0;
+  }
+
+  .heroPanel {
+    padding: 16px;
+  }
+
+  .resultBox {
+    padding: 16px 12px 22px;
+  }
+
+  .rouletteFull {
+    --card-w: 78px;
+    --card-h: 84px;
+    --active-scale: 1.12;
+    min-height: 170px;
+    padding: 10px 0;
+  }
+
+  .rouletteTrack {
+    gap: 8px;
+  }
+
+  .rouletteIcon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .rouletteCardActive .rouletteIcon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .rouletteName {
+    font-size: 11px;
   }
 
   .primary,

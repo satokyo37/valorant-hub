@@ -173,9 +173,10 @@ export default function HomePage() {
                           className="rouletteIcon"
                           src={`/agents/icon/${agent.id}.png`}
                           alt={`${agent.name} icon`}
-                          width={44}
-                          height={44}
-                          sizes="44px"
+                          width={72}
+                          height={72}
+                          sizes="(max-width: 640px) 40px, 56px"
+                          unoptimized
                           loading="lazy"
                         />
                         <span className="rouletteName">{agent.name}</span>
@@ -312,6 +313,7 @@ const FilterPanel = memo(function FilterPanel({
                         width={28}
                         height={28}
                         sizes="28px"
+                        unoptimized
                         loading="lazy"
                       />
                       <span className="chipName">{a.name}</span>

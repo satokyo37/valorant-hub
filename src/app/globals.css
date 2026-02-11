@@ -275,7 +275,7 @@ body::after {
     translateY(calc(var(--depth, 0) * 2px))
     translateZ(calc(-30px * (1 + (var(--depth, 0) * 0.2))))
     scale(calc(0.92 - (var(--depth, 0) * 0.04)));
-  filter: blur(calc(0.4px + (var(--depth, 0) * 0.2px)));
+  filter: none;
 }
 
 .rouletteCardActive {
@@ -286,6 +286,14 @@ body::after {
   box-shadow: none;
   background: rgba(255, 255, 255, 0.04);
   filter: none;
+}
+
+.rouletteCard:has(+ .rouletteCardActive) {
+  margin-right: 8px;
+}
+
+.rouletteCardActive + .rouletteCard {
+  margin-left: 8px;
 }
 
 .rouletteCardActive::after {
@@ -593,6 +601,14 @@ body::after {
 
   .rouletteTrack {
     gap: 8px;
+  }
+
+  .rouletteCard:has(+ .rouletteCardActive) {
+    margin-right: 6px;
+  }
+
+  .rouletteCardActive + .rouletteCard {
+    margin-left: 6px;
   }
 
   .rouletteIcon {

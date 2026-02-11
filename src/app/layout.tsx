@@ -22,9 +22,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Temporary single-locale setup. Keep this aligned with displayed copy until i18n is introduced.
+  // Default locale is English. Japanese fragments are marked with element-level lang attributes.
   return (
-    <html lang="ja">
+    <html lang="en">
       <body className={`${display.variable} ${body.variable} antialiased`}>
         {children}
       </body>

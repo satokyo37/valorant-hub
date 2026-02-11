@@ -136,7 +136,6 @@ export default function HomePage() {
         <div className="heroCopy">
           <p className="eyebrow">VALORANT HUB</p>
           <h1 className="heroTitle">Agent Roulette</h1>
-          <p className="heroSub">Spin once, lock in your pick.</p>
         </div>
 
         <div className="heroPanel">
@@ -186,7 +185,9 @@ export default function HomePage() {
                 </div>
               </div>
             ) : (
-              <div className="empty">候補なし</div>
+              <div className="empty" lang="ja">
+                候補なし
+              </div>
             )}
           </div>
 
@@ -236,7 +237,7 @@ const FilterPanel = memo(function FilterPanel({
           <div className="label">Total Agents</div>
           <div className="count">{AGENTS.length}</div>
         </div>
-        <div className="subText subTextEmphasis">
+        <div className="subText subTextEmphasis" lang="ja">
           チェックしたエージェントが候補に含まれます。未選択の場合は全員が候補です。
         </div>
       </div>
@@ -274,7 +275,7 @@ const FilterPanel = memo(function FilterPanel({
                 <Image
                   className="roleIcon"
                   src={roleIconSrc(role)}
-                  alt={`${role} role icon`}
+                  alt=""
                   width={18}
                   height={18}
                   sizes="18px"
@@ -307,7 +308,7 @@ const FilterPanel = memo(function FilterPanel({
                       <Image
                         className="chipIcon"
                         src={`/agents/icon/${a.id}.png`}
-                        alt={`${a.name} icon`}
+                        alt=""
                         width={28}
                         height={28}
                         sizes="28px"

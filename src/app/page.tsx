@@ -55,16 +55,16 @@ export default function HomePage() {
   }, [rouletteEl]);
 
   const visibleCount = useMemo(() => {
-    let cardSpan = 140;
+    let cardSpan = 154;
     let minCards = 7;
     let maxCards = 13;
 
     if (rouletteWidth < 460) {
-      cardSpan = 74;
+      cardSpan = 88;
       minCards = 3;
       maxCards = 5;
     } else if (rouletteWidth < 760) {
-      cardSpan = 112;
+      cardSpan = 124;
       minCards = 5;
       maxCards = 7;
     }
@@ -175,7 +175,7 @@ export default function HomePage() {
                           alt={`${agent.name} icon`}
                           width={72}
                           height={72}
-                          sizes="(max-width: 640px) 40px, 56px"
+                          sizes="(max-width: 640px) 44px, 64px"
                           unoptimized
                           loading="lazy"
                         />

@@ -82,12 +82,21 @@ import { AGENTS } from "@/data/agents";
 - エージェント画像は public/agents/ 配下に配置
 - 外部URLへの直リンク（ホットリンク）は行わない
 - ファイル名はエージェントの id に合わせる
+- 元画像は assets/agents/ 配下で管理し、公開用画像は生成する
 
 例：
 
 ```text
-public/agents/jett.png
-public/agents/omen.png
+assets/agents/icon-source/jett.png
+assets/agents/portraits-source/omen.png
+public/agents/icon/jett.png
+public/agents/portraits/omen.png
+```
+
+公開用画像の再生成:
+
+```bash
+npm run generate:agent-assets
 ```
 
 ---

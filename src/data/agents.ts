@@ -32,6 +32,7 @@ export const AGENTS: Agent[] = [
   { id: "astra", name: "Astra", nameJa: "アストラ", role: "Controller" },
   { id: "harbor", name: "Harbor", nameJa: "ハーバー", role: "Controller" },
   { id: "clove", name: "Clove", nameJa: "クローヴ", role: "Controller" },
+  { id: "miks", name: "Miks", nameJa: "ミクス", role: "Controller" },
 
   { id: "sage", name: "Sage", nameJa: "セージ", role: "Sentinel" },
   { id: "killjoy", name: "Killjoy", nameJa: "キルジョイ", role: "Sentinel" },
